@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -23,17 +24,15 @@ public class Employee {
     @Column(nullable = false, unique = true, length = 100)
     private String name;
 
-    @NotNull(message = "price must not be null")
-    @PositiveOrZero(message = "price must be >= 0")
-    @Digits(integer = 10, fraction = 2, message = "price must have max 10 digits and 2 decimals")
+    @NotNull(message = "salary must not be null")
+    @PositiveOrZero(message = "salary must be >= 0")
+    @Digits(integer = 10, fraction = 2, message = "salary must have max 10 digits and 2 decimals")
     @Column(nullable = false, precision = 12, scale = 2)
-    private BigDecimal price;
+    private BigDecimal salary;
 
-    @NotNull(message = "quantity must not be null")
-    @Min(value = 0, message = "quantity must be >= 0")
-    @Max(value = 1_000_000, message = "quantity must be <= 1,000,000")
+    @NotNull(message = "hireDate must not be null")
     @Column(nullable = false)
-    private Integer quantity;
+    private LocalDate hireDate;
 
     public Employee() {}
 }

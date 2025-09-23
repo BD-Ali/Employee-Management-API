@@ -1,0 +1,20 @@
+services:
+  db:
+    image: postgres:16
+    container_name: postgres16
+    environment:
+      POSTGRES_DB: appdb
+      POSTGRES_USER: emplmngapi
+      POSTGRES_PASSWORD: emplmngapi11
+    ports:
+      - "5433:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U appuser -d appdb"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+volumes:
+  pgdata:
