@@ -1,4 +1,4 @@
-package com.api.productmanagementapi.shared;
+package com.api.employeemanagementapi.shared;
 
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.dao.DataIntegrityViolationException;

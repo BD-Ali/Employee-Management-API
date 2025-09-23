@@ -1,8 +1,8 @@
-package com.api.productmanagementapi.service;
+package com.api.employeemanagementapi.service;
 
-import com.api.productmanagementapi.entity.Employee;
-import com.api.productmanagementapi.repository.EmployeeRepository;
-import com.api.productmanagementapi.shared.CustomResponseException;
+import com.api.employeemanagementapi.entity.Employee;
+import com.api.employeemanagementapi.repository.EmployeeRepository;
+import com.api.employeemanagementapi.shared.CustomResponseException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;

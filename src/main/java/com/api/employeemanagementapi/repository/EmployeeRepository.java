@@ -1,6 +1,6 @@
-package com.api.productmanagementapi.repository;
+package com.api.employeemanagementapi.repository;
 
-import com.api.productmanagementapi.entity.Employee;
+import com.api.employeemanagementapi.entity.Employee;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {

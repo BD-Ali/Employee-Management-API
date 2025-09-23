@@ -1,6 +1,6 @@
-package com.api.productmanagementapi.service;
+package com.api.employeemanagementapi.service;
 
-import com.api.productmanagementapi.entity.Employee;
+import com.api.employeemanagementapi.entity.Employee;
 import java.util.List;
 
 public interface EmployeeService {

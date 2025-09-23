@@ -1,4 +1,4 @@
-package com.api.productmanagementapi.shared;
+package com.api.employeemanagementapi.shared;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

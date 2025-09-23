@@ -1,11 +1,11 @@
-package com.api.productmanagementapi.controller;
+package com.api.employeemanagementapi.controller;
 
-import com.api.productmanagementapi.dtos.EmployeeCreate;
-import com.api.productmanagementapi.dtos.EmployeePatch;
-import com.api.productmanagementapi.dtos.EmployeeUpdate;
-import com.api.productmanagementapi.entity.Employee;
-import com.api.productmanagementapi.service.EmployeeService;
-import com.api.productmanagementapi.shared.GlobalResponse;
+import com.api.employeemanagementapi.dtos.EmployeeCreate;
+import com.api.employeemanagementapi.dtos.EmployeePatch;
+import com.api.employeemanagementapi.dtos.EmployeeUpdate;
+import com.api.employeemanagementapi.entity.Employee;
+import com.api.employeemanagementapi.service.EmployeeService;
+import com.api.employeemanagementapi.shared.GlobalResponse;
 import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
 import java.util.List;

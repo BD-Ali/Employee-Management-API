@@ -1,6 +1,6 @@
-package com.api.productmanagementapi.dtos;
+package com.api.employeemanagementapi.dtos;
 
-import com.api.productmanagementapi.entity.Employee;
+import com.api.employeemanagementapi.entity.Employee;
 import jakarta.validation.constraints.*;
 import java.math.BigDecimal;
 

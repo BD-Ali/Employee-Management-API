@@ -1,4 +1,4 @@
-package com.api.productmanagementapi.entity;
+package com.api.employeemanagementapi.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
