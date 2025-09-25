@@ -34,6 +34,24 @@ public class Employee {
     @Column(nullable = false)
     private LocalDate hireDate;
 
+    @NotBlank(message = "email must not be blank")
+    @Email(message = "email must be a valid email address")
+    @Size(max = 100, message = "email must be at most 100 characters")
+    @Column(nullable = false, unique = true, length = 100)
+    private String email;
+
+    @NotBlank(message = "phoneNumber must not be blank")
+    @Pattern(regexp = "\\+?[0-9]{7,15}", message = "phoneNumber must be a valid phone number")
+    @Size(max = 15, message = "phoneNumber must be at most 15 characters")
+    @Column(nullable = false, unique = true, length = 15)
+    private String phoneNumber;
+
+    @NotBlank(message = "position must not be blank")
+    @Size(max = 50, message = "position must be at most 50 characters")
+    @Column(nullable = false, length = 50)
+    private String position;
+
+
     public Employee() {}
 }
 
