@@ -25,7 +25,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     public Employee get(Long id) {
         return repo.findById(id)
                 .orElseThrow(() -> CustomResponseException.ResourceNotFound(
-                        "Product with id " + id + " not found"));
+                        "Employee with id " + id + " not found"));
     }
 
     @Override
@@ -33,18 +33,25 @@ public class EmployeeServiceImpl implements EmployeeService {
         if (p.getName() == null || p.getName().isBlank()) {
             throw CustomResponseException.BadRequest("Name cannot be null or blank");
         }
-        if (p.getPrice() == null) {
-            throw CustomResponseException.BadRequest("Price cannot be null");
+        if (p.getEmail() == null || p.getEmail().isBlank()) {
+            throw CustomResponseException.BadRequest("Email cannot be null or blank");
         }
-        if (p.getPrice().doubleValue() < 0) {
-            throw CustomResponseException.BadRequest("Price cannot be negative");
+        if (p.getPosition() == null || p.getPosition().isBlank()) {
+            throw CustomResponseException.BadRequest("Position cannot be null or blank");
         }
-        if (p.getQuantity() == null) {
-            throw CustomResponseException.BadRequest("Quantity cannot be null");
+        if (p.getSalary() == null) {
+            throw CustomResponseException.BadRequest("Salary cannot be null");
         }
-        if (p.getQuantity() < 0) {
-            throw CustomResponseException.BadRequest("Quantity cannot be negative");
+        if (p.getSalary().doubleValue() < 0) {
+            throw CustomResponseException.BadRequest("Salary cannot be negative");
         }
+        if (p.getHireDate().isAfter(java.time.LocalDate.now())) {
+            throw CustomResponseException.BadRequest("Hire date cannot be in the future");
+        }
+        if (p.getPhoneNumber() == null || p.getPhoneNumber().isBlank()) {
+            throw CustomResponseException.BadRequest("Phone number cannot be null or blank");
+        }
+
 
         return repo.save(p);
     }
@@ -53,26 +60,26 @@ public class EmployeeServiceImpl implements EmployeeService {
     public Employee update(Long id, Employee p) {
         Employee existing = get(id);
 
-        if (p.getName() == null || p.getName().isBlank()) {
-            throw CustomResponseException.BadRequest("Name cannot be null or blank");
+        if (p.getEmail() == null || p.getEmail().isBlank()) {
+            throw CustomResponseException.BadRequest("Email cannot be null or blank");
         }
-        existing.setName(p.getName());
+        if (p.getPosition() == null || p.getPosition().isBlank()) {
+            throw CustomResponseException.BadRequest("Position cannot be null or blank");
+        }
+        if (p.getSalary() == null) {
+            throw CustomResponseException.BadRequest("Salary cannot be null");
+        }
+        if (p.getSalary().doubleValue() < 0) {
+            throw CustomResponseException.BadRequest("Salary cannot be negative");
+        }
+        if (p.getPhoneNumber() == null || p.getPhoneNumber().isBlank()) {
+            throw CustomResponseException.BadRequest("Phone number cannot be null or blank");
+        }
 
-        if (p.getPrice() == null) {
-            throw CustomResponseException.BadRequest("Price cannot be null");
-        }
-        if (p.getPrice().doubleValue() < 0) {
-            throw CustomResponseException.BadRequest("Price cannot be negative");
-        }
-        existing.setPrice(p.getPrice());
-
-        if (p.getQuantity() == null) {
-            throw CustomResponseException.BadRequest("Quantity cannot be null");
-        }
-        if (p.getQuantity() < 0) {
-            throw CustomResponseException.BadRequest("Quantity cannot be negative");
-        }
-        existing.setQuantity(p.getQuantity());
+        existing.setEmail(p.getEmail());
+        existing.setPosition(p.getPosition());
+        existing.setSalary(p.getSalary());
+        existing.setPhoneNumber(p.getPhoneNumber());
 
         return repo.save(existing);
     }
@@ -80,7 +87,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public void delete(Long id) {
         if (!repo.existsById(id)) {
-            throw CustomResponseException.ResourceNotFound("Product with id " + id + " not found");        }
+            throw CustomResponseException.ResourceNotFound("Employee with id " + id + " not found");        }
         repo.deleteById(id);
     }
 }
