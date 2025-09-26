@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/products")
+@RequestMapping("/Employees")
 public class EmployeeController {
 
     private final EmployeeService service;
@@ -63,6 +63,6 @@ public class EmployeeController {
     public GlobalResponse<Map<String, String>> delete(@PathVariable Long id) {
         service.delete(id);
 
-        return GlobalResponse.successMessage("Product deleted");
+        return GlobalResponse.successMessage("Employee deleted");
     }
 }
