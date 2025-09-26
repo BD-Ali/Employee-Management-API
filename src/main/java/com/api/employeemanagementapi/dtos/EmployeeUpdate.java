@@ -5,7 +5,6 @@ import jakarta.persistence.Column;
 import jakarta.validation.constraints.*;
 import java.math.BigDecimal;
 
-
 public record EmployeeUpdate(
 
         @NotNull(message = "salary must not be null")
