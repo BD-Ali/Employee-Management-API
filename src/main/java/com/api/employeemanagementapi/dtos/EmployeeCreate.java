@@ -53,6 +53,9 @@ public record EmployeeCreate(
         p.setName(name);
         p.setSalary(salary);
         p.setHireDate(hireDate);
+        p.setEmail(email);
+        p.setPhoneNumber(phoneNumber);
+        p.setPosition(position);
         return p;
     }
 }

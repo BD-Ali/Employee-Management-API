@@ -18,11 +18,12 @@ public class Employee {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    private BigDecimal salary;
-    private LocalDate hireDate;
     private String email;
     private String phoneNumber;
     private String position;
+    private BigDecimal salary;
+    private LocalDate hireDate;
+
 
 
     public Employee() {}
