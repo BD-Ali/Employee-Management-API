@@ -30,7 +30,10 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Employee create(Employee p) {
-        if (p.getName() == null || p.getName().isBlank()) {
+        if (p.getFirstName() == null || p.getFirstName().isBlank()) {
+            throw CustomResponseException.BadRequest("Name cannot be null or blank");
+        }
+        if (p.getLastName() == null || p.getLastName().isBlank()) {
             throw CustomResponseException.BadRequest("Name cannot be null or blank");
         }
         if (p.getEmail() == null || p.getEmail().isBlank()) {
