@@ -51,6 +51,13 @@ public class EmployeeServiceImpl implements EmployeeService {
         if (p.getPhoneNumber() == null || p.getPhoneNumber().isBlank()) {
             throw CustomResponseException.BadRequest("Phone number cannot be null or blank");
         }
+        if (repo.existsByEmail(p.getEmail())) {
+            throw CustomResponseException.Conflict("Email " + p.getEmail() + " is already in use");
+        }
+        if (repo.existsByPhoneNumber(p.getPhoneNumber())) {
+            throw CustomResponseException.Conflict("Phone number " + p.getPhoneNumber() + " is already in use");
+        }
+
 
 
         return repo.save(p);
@@ -67,7 +74,7 @@ public class EmployeeServiceImpl implements EmployeeService {
             throw CustomResponseException.BadRequest("Position cannot be null or blank");
         }
         if (p.getSalary() == null) {
-            throw CustomResponseException.BadRequest("Salary cannot be null");
+            throw CustomResponseException.BadRequest("Salary cannot b3e null");
         }
         if (p.getSalary().doubleValue() < 0) {
             throw CustomResponseException.BadRequest("Salary cannot be negative");

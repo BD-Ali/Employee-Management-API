@@ -17,7 +17,12 @@ public record EmployeeCreate(
         @NotBlank(message = "name must not be blank")
         @Size(max = 100, message = "name must be at most 100 characters")
         @Column(nullable = false, unique = true, length = 100)
-        String name,
+        String FirstName,
+
+        @NotBlank(message = "name must not be blank")
+        @Size(max = 100, message = "name must be at most 100 characters")
+        @Column(nullable = false, unique = true, length = 100)
+        String LastName,
 
         @NotNull(message = "salary must not be null")
         @PositiveOrZero(message = "salary must be >= 0")
@@ -50,7 +55,8 @@ public record EmployeeCreate(
 ) {
     public Employee toEntity() {
         Employee p = new Employee();
-        p.setName(name);
+        p.setFirstName(FirstName);
+        p.setLastName(LastName);
         p.setSalary(salary);
         p.setHireDate(hireDate);
         p.setEmail(email);
