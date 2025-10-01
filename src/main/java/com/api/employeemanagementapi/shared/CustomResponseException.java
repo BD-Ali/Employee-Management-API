@@ -18,6 +18,9 @@ public class CustomResponseException extends RuntimeException{
     public static CustomResponseException Conflict(String message) {
         return new CustomResponseException(409, message);
     }
+    public static CustomResponseException InternalServerError(String message) {
+        return new CustomResponseException(500, message);
+    }
 
 
 }
