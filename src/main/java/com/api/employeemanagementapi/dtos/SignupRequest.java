@@ -5,7 +5,7 @@ import jakarta.validation.constraints.Size;
 
 import java.util.UUID;
 
-public record signupRequest(
+public record SignupRequest(
         @NotNull(message = "Employee ID cannot be null")
         UUID employeeId,
 
@@ -15,8 +15,5 @@ public record signupRequest(
 
         @NotNull(message = "Password cannot be null")
         @Size(min = 6, max = 100, message = "Password must be between 6 and 100 characters")
-        String password)
-{
-}
-
-
+        String password
+) {}

@@ -30,73 +30,20 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public Employee create(Employee p) {
-        if (p.getFirstName() == null || p.getFirstName().isBlank()) {
-            throw CustomResponseException.BadRequest("Name cannot be null or blank");
-        }
-        if (p.getLastName() == null || p.getLastName().isBlank()) {
-            throw CustomResponseException.BadRequest("Name cannot be null or blank");
-        }
-        if (p.getEmail() == null || p.getEmail().isBlank()) {
-            throw CustomResponseException.BadRequest("Email cannot be null or blank");
-        }
-        if (p.getPosition() == null || p.getPosition().isBlank()) {
-            throw CustomResponseException.BadRequest("Position cannot be null or blank");
-        }
-        if (p.getSalary() == null) {
-            throw CustomResponseException.BadRequest("Salary cannot be null");
-        }
-        if (p.getSalary().doubleValue() < 0) {
-            throw CustomResponseException.BadRequest("Salary cannot be negative");
-        }
-        if (p.getHireDate().isAfter(java.time.LocalDate.now())) {
-            throw CustomResponseException.BadRequest("Hire date cannot be in the future");
-        }
-        if (p.getPhoneNumber() == null || p.getPhoneNumber().isBlank()) {
-            throw CustomResponseException.BadRequest("Phone number cannot be null or blank");
-        }
-        if (repo.existsByEmail(p.getEmail())) {
-            throw CustomResponseException.Conflict("Email " + p.getEmail() + " is already in use");
-        }
-        if (repo.existsByPhoneNumber(p.getPhoneNumber())) {
-            throw CustomResponseException.Conflict("Phone number " + p.getPhoneNumber() + " is already in use");
-        }
-
-        p.setId(UUID.randomUUID());
-        return repo.save(p);
+    public Employee create(Employee employee) {
+        validateEmployee(employee);
+        validateUniqueConstraints(employee);
+        employee.setId(UUID.randomUUID());
+        return repo.save(employee);
     }
 
     @Override
-    public Employee update(UUID id, Employee p) {
+    public Employee update(UUID id, Employee employee) {
         Employee existing = get(id);
+        validateUpdateFields(employee);
+        validateUniqueConstraintsForUpdate(existing, employee);
 
-        if (p.getEmail() == null || p.getEmail().isBlank()) {
-            throw CustomResponseException.BadRequest("Email cannot be null or blank");
-        }
-        if (p.getPosition() == null || p.getPosition().isBlank()) {
-            throw CustomResponseException.BadRequest("Position cannot be null or blank");
-        }
-        if (p.getSalary() == null) {
-            throw CustomResponseException.BadRequest("Salary cannot be null");
-        }
-        if (p.getSalary().doubleValue() < 0) {
-            throw CustomResponseException.BadRequest("Salary cannot be negative");
-        }
-        if (p.getPhoneNumber() == null || p.getPhoneNumber().isBlank()) {
-            throw CustomResponseException.BadRequest("Phone number cannot be null or blank");
-        }
-        if (!existing.getEmail().equals(p.getEmail()) && repo.existsByEmail(p.getEmail())) {
-            throw CustomResponseException.Conflict("Email " + p.getEmail() + " is already in use");
-        }
-        if (!existing.getPhoneNumber().equals(p.getPhoneNumber()) && repo.existsByPhoneNumber(p.getPhoneNumber())) {
-            throw CustomResponseException.Conflict("Phone number " + p.getPhoneNumber() + " is already in use");
-        }
-
-        existing.setEmail(p.getEmail());
-        existing.setPosition(p.getPosition());
-        existing.setSalary(p.getSalary());
-        existing.setPhoneNumber(p.getPhoneNumber());
-
+        updateEmployeeFields(existing, employee);
         return repo.save(existing);
     }
 
@@ -106,5 +53,74 @@ public class EmployeeServiceImpl implements EmployeeService {
             throw CustomResponseException.ResourceNotFound("Employee with id " + id + " not found");
         }
         repo.deleteById(id);
+    }
+
+    private void validateEmployee(Employee employee) {
+        if (isNullOrBlank(employee.getFirstName())) {
+            throw CustomResponseException.BadRequest("First name cannot be null or blank");
+        }
+        if (isNullOrBlank(employee.getLastName())) {
+            throw CustomResponseException.BadRequest("Last name cannot be null or blank");
+        }
+        if (isNullOrBlank(employee.getEmail())) {
+            throw CustomResponseException.BadRequest("Email cannot be null or blank");
+        }
+        if (isNullOrBlank(employee.getPosition())) {
+            throw CustomResponseException.BadRequest("Position cannot be null or blank");
+        }
+        if (isNullOrBlank(employee.getPhoneNumber())) {
+            throw CustomResponseException.BadRequest("Phone number cannot be null or blank");
+        }
+        if (employee.getSalary() == null || employee.getSalary().doubleValue() < 0) {
+            throw CustomResponseException.BadRequest("Salary must be non-negative");
+        }
+        if (employee.getHireDate() != null && employee.getHireDate().isAfter(java.time.LocalDate.now())) {
+            throw CustomResponseException.BadRequest("Hire date cannot be in the future");
+        }
+    }
+
+    private void validateUpdateFields(Employee employee) {
+        if (isNullOrBlank(employee.getEmail())) {
+            throw CustomResponseException.BadRequest("Email cannot be null or blank");
+        }
+        if (isNullOrBlank(employee.getPosition())) {
+            throw CustomResponseException.BadRequest("Position cannot be null or blank");
+        }
+        if (isNullOrBlank(employee.getPhoneNumber())) {
+            throw CustomResponseException.BadRequest("Phone number cannot be null or blank");
+        }
+        if (employee.getSalary() == null || employee.getSalary().doubleValue() < 0) {
+            throw CustomResponseException.BadRequest("Salary must be non-negative");
+        }
+    }
+
+    private void validateUniqueConstraints(Employee employee) {
+        if (repo.existsByEmail(employee.getEmail())) {
+            throw CustomResponseException.Conflict("Email " + employee.getEmail() + " is already in use");
+        }
+        if (repo.existsByPhoneNumber(employee.getPhoneNumber())) {
+            throw CustomResponseException.Conflict("Phone number " + employee.getPhoneNumber() + " is already in use");
+        }
+    }
+
+    private void validateUniqueConstraintsForUpdate(Employee existing, Employee updated) {
+        if (!existing.getEmail().equals(updated.getEmail()) && repo.existsByEmail(updated.getEmail())) {
+            throw CustomResponseException.Conflict("Email " + updated.getEmail() + " is already in use");
+        }
+        if (!existing.getPhoneNumber().equals(updated.getPhoneNumber()) &&
+            repo.existsByPhoneNumber(updated.getPhoneNumber())) {
+            throw CustomResponseException.Conflict("Phone number " + updated.getPhoneNumber() + " is already in use");
+        }
+    }
+
+    private void updateEmployeeFields(Employee existing, Employee updated) {
+        existing.setEmail(updated.getEmail());
+        existing.setPosition(updated.getPosition());
+        existing.setSalary(updated.getSalary());
+        existing.setPhoneNumber(updated.getPhoneNumber());
+    }
+
+    private boolean isNullOrBlank(String str) {
+        return str == null || str.isBlank();
     }
 }
