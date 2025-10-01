@@ -6,6 +6,7 @@ import com.api.employeemanagementapi.shared.CustomResponseException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @Transactional
@@ -22,7 +23,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public Employee get(Long id) {
+    public Employee get(UUID id) {
         return repo.findById(id)
                 .orElseThrow(() -> CustomResponseException.ResourceNotFound(
                         "Employee with id " + id + " not found"));
@@ -61,12 +62,12 @@ public class EmployeeServiceImpl implements EmployeeService {
             throw CustomResponseException.Conflict("Phone number " + p.getPhoneNumber() + " is already in use");
         }
 
-
+        p.setId(UUID.randomUUID());
         return repo.save(p);
     }
 
     @Override
-    public Employee update(Long id, Employee p) {
+    public Employee update(UUID id, Employee p) {
         Employee existing = get(id);
 
         if (p.getEmail() == null || p.getEmail().isBlank()) {
@@ -84,10 +85,10 @@ public class EmployeeServiceImpl implements EmployeeService {
         if (p.getPhoneNumber() == null || p.getPhoneNumber().isBlank()) {
             throw CustomResponseException.BadRequest("Phone number cannot be null or blank");
         }
-        if (repo.existsByEmail(p.getEmail())) {
+        if (!existing.getEmail().equals(p.getEmail()) && repo.existsByEmail(p.getEmail())) {
             throw CustomResponseException.Conflict("Email " + p.getEmail() + " is already in use");
         }
-        if (repo.existsByPhoneNumber(p.getPhoneNumber())) {
+        if (!existing.getPhoneNumber().equals(p.getPhoneNumber()) && repo.existsByPhoneNumber(p.getPhoneNumber())) {
             throw CustomResponseException.Conflict("Phone number " + p.getPhoneNumber() + " is already in use");
         }
 
@@ -100,9 +101,10 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public void delete(Long id) {
+    public void delete(UUID id) {
         if (!repo.existsById(id)) {
-            throw CustomResponseException.ResourceNotFound("Employee with id " + id + " not found");        }
+            throw CustomResponseException.ResourceNotFound("Employee with id " + id + " not found");
+        }
         repo.deleteById(id);
     }
 }

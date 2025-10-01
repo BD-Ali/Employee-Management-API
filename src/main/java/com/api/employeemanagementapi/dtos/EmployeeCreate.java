@@ -9,17 +9,14 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 public record EmployeeCreate(
-        @Id
-        UUID id,
-
         @NotBlank(message = "name must not be blank")
         @Size(max = 100, message = "name must be at most 100 characters")
-        @Column(nullable = false, unique = true, length = 100)
+        @Column(nullable = false, length = 100)
         String FirstName,
 
         @NotBlank(message = "name must not be blank")
         @Size(max = 100, message = "name must be at most 100 characters")
-        @Column(nullable = false, unique = true, length = 100)
+        @Column(nullable = false, length = 100)
         String LastName,
 
         @NotNull(message = "salary must not be null")
@@ -31,7 +28,6 @@ public record EmployeeCreate(
         @NotNull(message = "hireDate must not be null")
         @Column(nullable = false)
         LocalDate hireDate,
-
 
         @NotBlank(message = "email must not be blank")
         @Email(message = "email must be a valid email address")
@@ -49,7 +45,6 @@ public record EmployeeCreate(
         @Size(max = 50, message = "position must be at most 50 characters")
         @Column(nullable = false, length = 50)
         String position
-
 ) {
     public Employee toEntity() {
         Employee p = new Employee();

@@ -10,13 +10,11 @@ import lombok.Setter;
 import java.util.UUID;
 
 @Entity
-@Table (name = "user-account")
+@Table(name = "user_accounts")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-
-
 public class UserAccount {
     @NotNull(message = "Id cannot be null")
     @Id
@@ -25,14 +23,13 @@ public class UserAccount {
     @Column(name = "username", unique = true, nullable = false, length = 50)
     private String username;
 
-    @Column(name = "password", nullable = false, length = 50)
+    @Column(name = "password", nullable = false)
     private String password;
 
     @Column(name = "role", nullable = false, length = 20)
     private String role = "USER";
 
-    @OneToOne(fetch = FetchType.LAZY,optional = false)
-    @JoinColumn(name = "employee",unique = true , nullable = false)
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "employee_id", unique = true, nullable = false)
     private Employee employee;
-
 }
