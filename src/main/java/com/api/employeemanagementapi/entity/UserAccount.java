@@ -1,10 +1,13 @@
 package com.api.employeemanagementapi.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.UUID;
 
 @Entity
 @Table (name = "user-account")
@@ -15,9 +18,9 @@ import lombok.Setter;
 
 
 public class UserAccount {
+    @NotNull(message = "Id cannot be null")
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private UUID id;
 
     @Column(name = "username", unique = true, nullable = false, length = 50)
     private String username;

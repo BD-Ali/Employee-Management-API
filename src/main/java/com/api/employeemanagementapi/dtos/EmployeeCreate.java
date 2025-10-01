@@ -2,17 +2,15 @@ package com.api.employeemanagementapi.dtos;
 
 import com.api.employeemanagementapi.entity.Employee;
 import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.UUID;
 
 public record EmployeeCreate(
         @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-        Long id,
+        UUID id,
 
         @NotBlank(message = "name must not be blank")
         @Size(max = 100, message = "name must be at most 100 characters")
